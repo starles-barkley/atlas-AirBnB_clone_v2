@@ -13,9 +13,11 @@ from console import HBNBCommand
 
 class TestHBNBCommand(unittest.TestCase):
 
+
     def test_quit(self):
         with self.assertRaises(SystemExit):
             HBNBCommand().onecmd("quit")
+
 
 if __name__ == '__main__':
     unittest.main()
