@@ -136,9 +136,9 @@ class HBNBCommand(cmd.Cmd):
                 elif '.' in value:
                     value = float(value)
                 else:
-                value = int(value)
+                    value = int(value)
 
-                    params[key] = value
+                params[key] = value
             except ValueError:
                 print(f"Error parsing parameter: {param}. Skipping.")
 
