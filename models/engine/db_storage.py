@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """This module defines a class DBStorage for the storage engine"""
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import sessionmaker
 from models.base_model import Base
-from os import environ
+from os import environ as env
 
 
 class DBStorage:
@@ -44,24 +44,3 @@ class DBStorage:
                 objects[key] = obj
 
         return objects
-
-    def new(self, obj):
-        """Add the object to the current database session."""
-        self.__session.add(obj)
-
-    def save(self):
-        """Commit all changes of the current database session."""
-        self.__session.commit()
-
-    def delete(self, obj=None):
-        """Delete from the current database session."""
-        if obj:
-            self.__session.delete(obj)
-
-    def reload(self):
-        """Create all tables in the database."""
-        Base.metadata.create_all(self.__engine)
-
-    def close(self):
-        """Call remove() method on the private session attribute."""
-        self.__session.remove()
