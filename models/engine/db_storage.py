@@ -2,7 +2,7 @@
 
 """This module defines a class for creating the engine"""
 import os
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from ..user import User
