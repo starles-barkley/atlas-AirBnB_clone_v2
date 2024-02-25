@@ -17,20 +17,10 @@ class DBStorage:
         self.__session = sessionmaker(bind=self.__engine)
         if environment == 'test':
             db_metadata.drop_all()
-            
+
     def all(self, cls=None):
-        """Query on the current database session."""
-        from models import base_model
-        classes = [base_model.User, base_model.State, base_model.City,
-                   base_model.Amenity, base_model.Place, base_model.Review]
-
-        objects = {}
-        if cls:
-            classes = [cls]
-
-        for cls in classes:
-            for obj in self.__session.query(cls).all():
-                key = "{}.{}".format(type(obj).__name__, obj.id)
-                objects[key] = obj
-
-        return objects
+        res = {}
+        if cls is None:
+            query = self.__session.query().all()
+        else:
+            query = self.__session.query(cls).all()
