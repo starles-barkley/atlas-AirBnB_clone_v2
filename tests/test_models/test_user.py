@@ -7,28 +7,22 @@ from models.user import User
 class TestUser(test_basemodel):
     """ Tests the user class """
 
-    def __init__(self, *args, **kwargs):
-        """  """
-        super().__init__(*args, **kwargs)
-        self.name = "User"
-        self.value = User
-
-    def test_first_name(self):
+    def test_is_first_name_a_string(self):
         """ Tests if the type of first_name is a string """
         new = self.value()
         self.assertEqual(type(new.first_name), str)
 
-    def test_last_name(self):
+    def test_is_last_name_a_string(self):
         """ Checks if type of last_name is a string """
         new = self.value()
         self.assertEqual(type(new.last_name), str)
 
-    def test_email(self):
+    def test_is_email_a_string(self):
         """ Checks if type of email is a string """
         new = self.value()
         self.assertEqual(type(new.email), str)
 
-    def test_password(self):
+    def test_is_password_a_string(self):
         """ Checks if type of password is a string """
         new = self.value()
         self.assertEqual(type(new.password), str)
