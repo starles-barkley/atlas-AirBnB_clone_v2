@@ -11,8 +11,8 @@ from models.amenity import Amenity
 from models.review import Review
 from console import HBNBCommand
 
-class TestHBNBCommand(unittest.TestCase):
 
+class TestHBNBCommand(unittest.TestCase):
 
     def test_quit(self):
         with self.assertRaises(SystemExit):
