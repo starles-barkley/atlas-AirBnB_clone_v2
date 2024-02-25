@@ -114,33 +114,31 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-    """Create an object of any class with given parameters"""
-        
+        """Create an object of any class with given parameters"""
         if not arg:
-        print("** class name missing **")
-        return
+            print("** class name missing **")
+            return
 
         args = arg.split()
         class_name = args[0]
 
         if class_name not in HBNBCommand.classes:
-        print("** class doesn't exist **")
-        return
+            print("** class doesn't exist **")
+            return
 
         params = {}
         for param in args[1:]:
             try:
                 key, value = param.split('=')
-                key = key.replace('_', ' ')  # Replace underscores with spaces
+                key = key.replace('_', ' ')
                 if value[0] == '"' and value[-1] == '"':
-                    value = value[1:-1].replace('\\"', '"')  # Unescape double quotes
+                    value = value[1:-1].replace('\\"', '"')
                 elif '.' in value:
                     value = float(value)
                 else:
                 value = int(value)
 
-                params[key] = value
-                
+                    params[key] = value
             except ValueError:
                 print(f"Error parsing parameter: {param}. Skipping.")
 
