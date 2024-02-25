@@ -13,21 +13,11 @@ class DBStorage:
 
     def __init__(self):
         """Creates an instance of DBStorage."""
-        self.__engine = create_engine(
-            'mysql+mysqldb://{}:{}@{}/{}'
-            .format(environ.get('HBNB_MYSQL_USER'),
-                    environ.get('HBNB_MYSQL_PWD'),
-                    environ.get('HBNB_MYSQL_HOST', 'localhost'),
-                    environ.get('HBNB_MYSQL_DB')),
-            pool_pre_ping=True)
-
-        if environ.get('HBNB_ENV') == 'test':
-            Base.metadata.drop_all(self.__engine)
-
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
-        self.__session = scoped_session(session_factory)
-
+        self.__engine = create_engine(connect, pool_pre_ping=True)
+        self.__session = sessionmaker(bind=self.__engine)
+        if environment == 'test':
+            db_metadata.drop_all()
+            
     def all(self, cls=None):
         """Query on the current database session."""
         from models import base_model
