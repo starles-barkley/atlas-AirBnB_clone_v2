@@ -1,23 +1,13 @@
-#!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-import models
-
-
 Base = declarative_base()
-
-class BaseModel(Base):
+class BaseModel:
     """A base class for all hbnb models"""
-    __table__= 'BaseModel'
-
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-
-    def __init__(self, *args, **kwargs):
+     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
@@ -31,20 +21,16 @@ class BaseModel(Base):
             for key, value in kwargs.items():
                 if key != '__class__':
                     setattr(self, key, value)
-
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
-
-    def save(self):
-        """Updates updated_at with the current time when the instance is changed"""
+	@@ -29,13 +30,14 @@ def save(self):
+        """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
 
         storage.new(self)
         storage.save()
-
     def to_dict(self):
         """Converts instance into dict format"""
         dictionary = self.__dict__.copy()
