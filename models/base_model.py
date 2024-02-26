@@ -52,3 +52,8 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         return dictionary
+
+    def delete(self):
+        """Deletes current instance from storage"""
+        from models.engine.file_storage import storage
+        storage.delete(self)
