@@ -18,7 +18,6 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        from models.engine.file_storage import storage
 
         if not kwargs:
             self.id = str(uuid.uuid4())
