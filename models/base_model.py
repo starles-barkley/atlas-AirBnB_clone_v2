@@ -18,13 +18,13 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        from models.engine.file_storage import FileStorage
+        from models.engine.file_storage import storage
 
         if not kwargs:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            FileStorage.new(self)
+            models.storage.new(self)
         else:
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
@@ -40,9 +40,9 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models.engine.file_storage import FileStorage
+        from models.engine.file_storage import storage
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """Convert instance into dict format"""
@@ -57,4 +57,4 @@ class BaseModel:
     def delete(self):
         """Deletes current instance from storage"""
         from models.engine.file_storage import storage
-        storage.delete(self)
+        models.storage.delete(self)
