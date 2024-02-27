@@ -279,120 +279,54 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: count <class_name>")
 
     def do_update(self, args):
-
         """ Updates a certain object with new info """
-
         c_name = c_id = att_name = att_val = kwargs = ''
 
-
-
-
-
         args = args.partition(" ")
-
         if args[0]:
-
             c_name = args[0]
-
         else:
-
             print("** class name missing **")
-
             return
-
         if c_name not in HBNBCommand.classes:
-
             print("** class doesn't exist **")
-
             return
-
-
-
-
 
         args = args[2].partition(" ")
-
         if args[0]:
-
             c_id = args[0]
-
         else:
-
             print("** instance id missing **")
-
             return
-
-
-
-
 
         key = c_name + "." + c_id
 
-
-
-
-
         if key not in storage.all():
-
             print("** no instance found **")
-
             return
 
-
-
-
-
         if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
-
             kwargs = eval(args[2])
-
             args = []
-
             for k, v in kwargs.items():
-
                 args.append(k)
-
                 args.append(v)
-
         else:
-
             args = args[2]
-
             if args and args[0] == '\"':
-
                 second_quote = args.find('\"', 1)
-
                 att_name = args[1:second_quote]
-
                 args = args[second_quote + 1:]
-
-
-
 
             args = args.partition(' ')
 
-
-
-
-
             if not att_name and args[0] != ' ':
-
                 att_name = args[0]
-
-
             if args[2] and args[2][0] == '\"':
-
                 att_val = args[2][1:args[2].find('\"', 1)]
 
-
-
-
-
             if not att_val and args[2]:
-
                 att_val = args[2].partition(' ')[0]
-
-
 
             args = [att_name, att_val]
 
