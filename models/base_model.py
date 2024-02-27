@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import models
+import os
 storage_type = os.environ.get('HBNB_TYPE_STORAGE', 'file')
 
 
