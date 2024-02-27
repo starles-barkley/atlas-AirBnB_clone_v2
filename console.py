@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] == '}'\
+                    if pline[0] == '{' and pline[-1] == '}' \
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -114,52 +114,62 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        """Create a new instance of a class with given parameters."""
-        # Split the command line argument string into a list of arguments
-        args = arg.split()
-        # Check if the minimum number of arguments (class name) is provided
-        if len(args) < 1:
-            print("Invalid command")
+        """ Create an object of any class with given parameters """
+        if not arg:
+            print("** class name missing **")
             return
-        # Extract the class name from the first argument
+
+        args = arg.split()
         class_name = args[0]
-        # Extract the remaining arguments as parameters
+
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        # Extracting parameters (skip class_name)
         params = args[1:]
-        # Initialize an empty dictionary to hold the parameters
-        params_dict = {}
-        # Create a new instance of the specified class and save it to storage
-        new_instance = HBNBCommand.classes[args[0]]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
-        """
-        Loop through each parameter
-        Split the parameter into key and value
-        Check if the value is a string (starts and ends with double quotes)
-        Check if the value is a float (contains a dot)
-        Convert the value to a float
-        Assume the value is an integer
-        Add the key-value pair to the dictionary
-        If the parameter is not valid, skip it and print an error message
-        Update the instance with the parameters
-        """
+
+        # Creating dictionary to store parameters
+        parameters = {}
+
+        # Loop through parameters
         for param in params:
+            # Split key and value
+            key_value = param.split('=')
+
+            # Check if key and value are present
+            if len(key_value) != 2:
+                print(f"Invalid parameter: {param}")
+                continue
+
+            key, value = key_value
+
+            # Check if value is surrounded by double quotes
+            if value.startswith('"') and value.endswith('"'):
+                # Remove double quotes
+                value = value[1:-1]
+                # Replace underscores with spaces
+                value = value.replace('_', ' ')
+                # Unescape double quotes
+                value = value.replace('\\"', '"')
+
+            # Try to convert value to int or float
             try:
-                key, value = param.split('=')
-                if value.startswith('"') and value.endswith('"'):
-                    value = value[1:-1].replace('\\"', '"').replace('_', ' ')
-                elif '.' in value:
+                if '.' in value:
                     value = float(value)
                 else:
                     value = int(value)
-                params_dict[key] = value
             except ValueError:
-                print(f"Parameter '{param}' is not valid.")
-                continue
-            for key, value in params_dict.items():
-                setattr(new_instance, key, value)
-        # Save the updated instance to storage
-        storage.new(new_instance)
+                pass  # Leave value as string if not convertible to int or float
+
+            # Add key-value pair to parameters dictionary
+            parameters[key] = value
+
+        # Create an instance of the specified class with the given parameters
+        new_instance = HBNBCommand.classes[class_name](**parameters)
+
+        storage.save()
+        print(new_instance.id)
         storage.save()
 
     def help_create(self):
@@ -242,11 +252,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all(args).items():
+            for k, v in storage._FileStorage__objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage.all().items():
+            for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -269,62 +279,120 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: count <class_name>")
 
     def do_update(self, args):
+
         """ Updates a certain object with new info """
+
         c_name = c_id = att_name = att_val = kwargs = ''
 
-        # isolate cls from id/args, ex: (<cls>, delim, <id/args>)
+
+
+
+
         args = args.partition(" ")
+
         if args[0]:
+
             c_name = args[0]
-        else:  # class name not present
+
+        else:
+
             print("** class name missing **")
+
             return
-        if c_name not in HBNBCommand.classes:  # class name invalid
+
+        if c_name not in HBNBCommand.classes:
+
             print("** class doesn't exist **")
+
             return
 
-        # isolate id from args
+
+
+
+
         args = args[2].partition(" ")
+
         if args[0]:
+
             c_id = args[0]
-        else:  # id not present
+
+        else:
+
             print("** instance id missing **")
+
             return
 
-        # generate key from class and id
+
+
+
+
         key = c_name + "." + c_id
 
-        # determine if key is present
+
+
+
+
         if key not in storage.all():
+
             print("** no instance found **")
+
             return
 
-        # first determine if kwargs or args
+
+
+
+
         if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
+
             kwargs = eval(args[2])
-            args = []  # reformat kwargs into list, ex: [<name>, <value>, ...]
+
+            args = []
+
             for k, v in kwargs.items():
+
                 args.append(k)
+
                 args.append(v)
-        else:  # isolate args
+
+        else:
+
             args = args[2]
-            if args and args[0] == '\"':  # check for quoted arg
+
+            if args and args[0] == '\"':
+
                 second_quote = args.find('\"', 1)
+
                 att_name = args[1:second_quote]
+
                 args = args[second_quote + 1:]
+
+
+
 
             args = args.partition(' ')
 
-            # if att_name was not quoted arg
+
+
+
+
             if not att_name and args[0] != ' ':
+
                 att_name = args[0]
-            # check for quoted val arg
+
+
             if args[2] and args[2][0] == '\"':
+
                 att_val = args[2][1:args[2].find('\"', 1)]
 
-            # if att_val was not quoted arg
+
+
+
+
             if not att_val and args[2]:
+
                 att_val = args[2].partition(' ')[0]
+
+
 
             args = [att_name, att_val]
 
