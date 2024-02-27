@@ -20,7 +20,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        from models.engine.file_storage import storage
+        # from models.engine.file_storage import storage
 
         if not kwargs:
             self.id = str(uuid.uuid4())
@@ -42,7 +42,7 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models.engine.file_storage import storage
+        # from models.engine.file_storage import storage
         self.updated_at = datetime.now()
         models.storage.save()
 
@@ -58,5 +58,5 @@ class BaseModel:
 
     def delete(self):
         """Deletes current instance from storage"""
-        from models.engine.file_storage import storage
+        # from models.engine.file_storage import storage
         models.storage.delete(self)
