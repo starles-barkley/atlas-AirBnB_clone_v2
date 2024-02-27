@@ -114,63 +114,63 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-    """ Create an object of any class with given parameters """
-    if not arg:
-        print("** class name missing **")
-        return
+        """ Create an object of any class with given parameters """
+        if not arg:
+            print("** class name missing **")
+            return
 
-    args = arg.split()
-    class_name = args[0]
+        args = arg.split()
+        class_name = args[0]
 
-    if class_name not in HBNBCommand.classes:
-        print("** class doesn't exist **")
-        return
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
 
-    # Extracting parameters (skip class_name)
-    params = args[1:]
+        # Extracting parameters (skip class_name)
+        params = args[1:]
 
-    # Creating dictionary to store parameters
-    parameters = {}
+        # Creating dictionary to store parameters
+        parameters = {}
 
-    # Loop through parameters
-    for param in params:
-        # Split key and value
-        key_value = param.split('=')
+        # Loop through parameters
+        for param in params:
+            # Split key and value
+            key_value = param.split('=')
 
-        # Check if key and value are present
-        if len(key_value) != 2:
-            print(f"Invalid parameter: {param}")
-            continue
+            # Check if key and value are present
+            if len(key_value) != 2:
+                print(f"Invalid parameter: {param}")
+                continue
 
-        key, value = key_value
+            key, value = key_value
 
-        # Check if value is surrounded by double quotes
-        if value.startswith('"') and value.endswith('"'):
-            # Remove double quotes
-            value = value[1:-1]
-            # Replace underscores with spaces
-            value = value.replace('_', ' ')
-            # Unescape double quotes
-            value = value.replace('\\"', '"')
+            # Check if value is surrounded by double quotes
+            if value.startswith('"') and value.endswith('"'):
+                # Remove double quotes
+                value = value[1:-1]
+                # Replace underscores with spaces
+                value = value.replace('_', ' ')
+                # Unescape double quotes
+                value = value.replace('\\"', '"')
 
-        # Try to convert value to int or float
-        try:
-            if '.' in value:
-                value = float(value)
-            else:
-                value = int(value)
-        except ValueError:
-            pass  # Leave value as string if not convertible to int or float
+            # Try to convert value to int or float
+            try:
+                if '.' in value:
+                    value = float(value)
+                else:
+                    value = int(value)
+            except ValueError:
+                pass  # Leave value as string if not convertible to int or float
 
-        # Add key-value pair to parameters dictionary
-        parameters[key] = value
+            # Add key-value pair to parameters dictionary
+            parameters[key] = value
 
-    # Create an instance of the specified class with the given parameters
-    new_instance = HBNBCommand.classes[class_name](**parameters)
+        # Create an instance of the specified class with the given parameters
+        new_instance = HBNBCommand.classes[class_name](**parameters)
 
-    storage.save()
-    print(new_instance.id)
-    storage.save()
+        storage.save()
+        print(new_instance.id)
+        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
