@@ -9,9 +9,6 @@ class State(BaseModel, Base):
     __tablename__ = 'states'
 
     name = Column(String(128), nullable=False)
-    
-    # For DBStorage
-    cities = relationship("City", backref="state", cascade="all, delete-orphan")
 
     # For FileStorage
     @property
