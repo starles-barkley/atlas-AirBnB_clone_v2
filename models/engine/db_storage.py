@@ -15,6 +15,7 @@ from ..review import Review
 
 Base = declarative_base()
 
+
 class DBStorage:
     """This class manages storage of hbnb models in database format"""
     __engine = None
@@ -36,10 +37,10 @@ class DBStorage:
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-        
 
     def all(self, cls=None):
         """Implement query and return as dictionary"""
@@ -51,7 +52,8 @@ class DBStorage:
                     result[key] = instance
             return result
         else:
-            return {f"{cls.__name__}.{instance.id}": instance for instance in self.__session.query(cls).all()}
+            return {f"{cls.__name__}.{instance.id}": 
+                    instance for instance in self.__session.query(cls).all()}
 
     def new(self, obj):
         """Add object to session"""
@@ -70,6 +72,7 @@ class DBStorage:
         """Recreate tables and create new session"""
         Base.metadata.create_all(self.__engine)
         self.__session.close()
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
