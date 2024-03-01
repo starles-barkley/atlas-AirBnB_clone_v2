@@ -52,7 +52,7 @@ class DBStorage:
                     result[key] = instance
             return result
         else:
-            return {f"{cls.__name__}.{instance.id}": 
+            return {f"{cls.__name__}.{instance.id}":
                     instance for instance in self.__session.query(cls).all()}
 
     def new(self, obj):
