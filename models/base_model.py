@@ -9,13 +9,17 @@ import os
 storage_type = os.environ.get('HBNB_TYPE_STORAGE', 'file')
 
 
-Base = declarative_base() 
+Base = declarative_base()
+
+
 class BaseModel:
     """A base class for all hbnb models"""
 
     id = Column('id', String(60), primary_key=True)
-    created_at = Column('created_at', DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = Column('updated_at', DateTime, nullable=False, default=datetime.utcnow())
+    created_at = Column('created_at', DateTime, nullable=False,
+                         default=datetime.utcnow())
+    updated_at = Column('updated_at', DateTime, nullable=False, 
+                        default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
