@@ -34,11 +34,6 @@ def num_route(n):
     return f'{n} is a number'
 
 
-@app.route('/number/template/<int:n>', strict_slashes=False)
-def num_template(n):
-    return f'Number {n}'
-
-
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def num_template(n):
     if isinstance(n, int):
