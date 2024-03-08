@@ -1,31 +1,34 @@
 #!/usr/bin/python3
-"""This module defines a flask web application"""
-from flask import Flask
+'''This module starts a Flask web app'''
 
+from flask import Flask
 
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-def index():
-    return "Hello HBNB!"
+def hello_hbnb():
+    return 'Hello HBNB!'
 
 
 @app.route('/hbnb', strict_slashes=False)
-def hbnb():
-    return "HBNB"
+def display_hbnb():
+    return 'HBNB'
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def c(text):
-    return "C " + text.replace('_', ' ')
+def display_c(text):
+    formatted_text = text.replace('_', ' ')
+    return f'C {formatted_text}'
 
 
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python(text='is cool'):
-    return 'Python ' + text.replace('_', ' ')
+def display_python(text='is_cool'):
+    formatted_text = text.replace('_', ' ')
+    return f'Python {formatted_text}'
 
 
+@app.route('/number/<n>')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
