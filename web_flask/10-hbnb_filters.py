@@ -6,7 +6,8 @@ from flask import Flask
 from flask import render_template
 from flask import g
 import logging
-from models import storage, env
+from models import storage
+from models.amenity import Amenity
 from models.state import State
 from models.city import City
 
@@ -20,10 +21,10 @@ def teardown(exception):
 
 @app.route("/hbnb_filters", strict_slashes=False)
 def filter_route():
-    states = storage.all("State").values()
-    amenities = storage.all("Amenity").values()
+    states = storage.all(State).values()
+    amenities = storage.all(Amenity).values()
 
-    return render_template("10-hbnb_filters.html", states=states, amenities=amenities)
+    return render_template("10-hbnb_filter.html", states=states, amenities=amenities)
 
 
 if __name__ == '__main__':
